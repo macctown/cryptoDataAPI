@@ -1,0 +1,648 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": " CryptoWheel Data API Demo",
+    "description": "A demo for cryptoWheel provided data API",
+    "contact": {
+      "name": "CryptoWheel API Team"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "localhost:8081",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/binance/historicalTrades/{base}/{quote}": {
+      "get": {
+        "description": "Returns all historical trades from binance exchange",
+        "operationId": "binanceHistoricalTrades",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return. max is 1000",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historical trades of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HistoricalTrade"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested historical trades does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/binance/candles/{base}/{quote}/{interval}": {
+      "get": {
+        "description": "Returns candles information from binance exchange",
+        "operationId": "binanceCandles",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "interval",
+            "in": "path",
+            "description": "interval of candle: 5M",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candles of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Candles"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested candles does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/binance/orderBooks/{base}/{quote}/{depth}": {
+      "get": {
+        "description": "Returns all order books from binance exchange",
+        "operationId": "binanceOrderBooks",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "depth",
+            "in": "path",
+            "description": "depth of the order books",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return. max is 1000",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order books of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderBook"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested order books does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/bitfinex/historicalTrades/{base}/{quote}": {
+      "get": {
+        "description": "Returns all historical trades from bitfinex exchange",
+        "operationId": "bitfinexHistoricalTrades",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return. max is 1000",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historical trades of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HistoricalTrade"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested historical trades does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/bitfinex/candles/{base}/{quote}/{interval}": {
+      "get": {
+        "description": "Returns candles information from bitfinex exchange",
+        "operationId": "bitfinexCandles",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "interval",
+            "in": "path",
+            "description": "interval of candle: 5M",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candles of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Candles"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested canldes does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/bitfinex/orderBooks/{base}/{quote}/{depth}": {
+      "get": {
+        "description": "Returns all order books from bitfinex exchange",
+        "operationId": "bitfinexOrderBooks",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "base",
+            "in": "path",
+            "description": "base of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "quote",
+            "in": "path",
+            "description": "quote of the trade pair",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "depth",
+            "in": "path",
+            "description": "depth of the order books",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of results to return. max is 1000",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromTime",
+            "in": "query",
+            "description": "open time of the first result to return",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order books of requested trade pair",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderBook"
+              }
+            }
+          },
+          "404": {
+            "description": "Requested order books does not exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "400": {
+            "description": "Required parameter is missing",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Internel server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "HistoricalTrade": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format":"int32"
+        },
+        "orderId": {
+          "type": "integer",
+          "format":"int64"
+        },
+        "price": {
+          "type": "number",
+          "format":"double"
+        },
+        "qty": {
+          "type": "number",
+          "format":"double"
+        },
+        "side": {
+          "type": "string"
+        },
+        "time": {
+          "type": "integer",
+          "format":"int64"
+        },
+        "isBuyerMaker": {
+          "type": "boolean"
+        },
+        "isBestMatch": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Candle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format":"int32"
+        },
+        "openTime": {
+          "type": "integer",
+          "format":"int64"
+        },
+        "open": {
+          "type": "number",
+          "format":"double"
+        },
+        "high": {
+          "type": "number",
+          "format":"double"
+        },
+        "low": {
+          "type": "number",
+          "format":"double"
+        },
+        "close": {
+          "type": "number",
+          "format":"double"
+        },
+        "volume": {
+          "type": "number",
+          "format":"double"
+        }
+      }
+    },
+    "OrderBook": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format":"int32"
+        },
+        "lastUpdateId": {
+          "type": "integer"
+        },
+        "openTime": {
+          "type": "integer",
+          "format":"int64"
+        },
+        "open": {
+          "type": "number",
+          "format":"double"
+        },
+        "high": {
+          "type": "number",
+          "format":"double"
+        },
+        "low": {
+          "type": "number",
+          "format":"double"
+        },
+        "close": {
+          "type": "number",
+          "format":"double"
+        },
+        "volume": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
