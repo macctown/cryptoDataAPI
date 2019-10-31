@@ -19,7 +19,7 @@
     "path": "^0.12.7",
     "promise": "^7.1.1",
     "request": "^2.81.0",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.15.1",
     "swagger-stats": "^0.95.7",
     "uuid": "^3.3.2",
     "validator": "^5.2.0",
