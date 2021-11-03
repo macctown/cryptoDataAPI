@@ -22,7 +22,7 @@
     "sequelize": "^4.38.0",
     "swagger-stats": "^0.95.7",
     "uuid": "^3.3.2",
-    "validator": "^5.2.0",
+    "validator": "^13.7.0",
     "winston": "^2.3.1",
     "yui": "^3.18.1"
   },
